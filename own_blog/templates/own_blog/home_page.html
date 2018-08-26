@@ -1,0 +1,11 @@
+<h1>hello</h1>
+{% if all_post_list %}
+       {% for post in all_post_list %}
+           <li>
+               <a href="{% url 'own_blog:post_detail' post.id %}">{{ post.title}}------{{ post.author }} </a>
+           </li>
+       {% endfor %}
+{% else %}
+   <p>No posts available.</p>
+
+{% endif %}
