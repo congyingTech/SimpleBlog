@@ -11,7 +11,7 @@ import markdown
 
 from django.shortcuts import get_object_or_404
 
-from django.http import HttpResponseRedirect
+from django.http import Http404
 
 from django.urls import reverse
 
@@ -41,6 +41,16 @@ def detail(request, post_id):
                                   ])
     context = {'post': post}
     return render(request, 'own_blog/post_detail.html', context=context)
+
+
+def archives(request):
+    try:
+        post_list = Post.objects.order_by('-pub_date')
+    except Post.DoesNotExist:
+        raise Http404
+    return render(request, 'archives.html', {"post_list": post_list, "error": False})
+
+
 
 
 

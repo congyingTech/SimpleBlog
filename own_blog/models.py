@@ -46,4 +46,11 @@ class Comment(models.Model):
         return str(content)
 
 
+class Tag(models.Model):
+    tag_name = models.CharField(max_length=64)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.tag_name
+
 
