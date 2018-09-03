@@ -3,7 +3,7 @@
 {% load custom_markdown %}
 {% block content %}
 <div class="posts">
-    {% for post in post_list %}
+    {% for post in all_post_list %}
         <section class="post">
             <header class="post-header">
                 <h2 class="post-title"><a href="{% url 'own_blog:detail' id=post.id %}">{{ post.title }}</a></h2>

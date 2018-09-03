@@ -12,10 +12,30 @@ import markdown
 from django.shortcuts import get_object_or_404
 
 from django.http import Http404
-
-from django.urls import reverse
-
+from django.core.urlresolvers import reverse
+from django.contrib.syndication.views import Feed
 # Create your views here.
+
+
+class RSSFeed(Feed):
+    title = "RSS - congying blog"
+    link = "feeds/posts/"
+    description = "RSS - congying"
+
+    def items(self):
+        return Post.objects.order_by('-pub_date')
+
+    def item_title(self, item):
+        return item.title
+
+    def item_pubdate(self, item):
+        return item.add_date
+
+    def item_description(self, item):
+        return item.content
+
+    def item_link(self, item):
+        return reverse('archives', args=[item.pk])
 
 
 class HomePageView(generic.ListView):
@@ -48,9 +68,11 @@ def archives(request):
         post_list = Post.objects.order_by('-pub_date')
     except Post.DoesNotExist:
         raise Http404
-    return render(request, 'archives.html', {"post_list": post_list, "error": False})
+    return render(request, 'own_blog/archives.html', {"post_list": post_list, "error": False})
 
 
+def about_me(request):
+    return render(request, 'own_blog/about_me.html')
 
 
 
